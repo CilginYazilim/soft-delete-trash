@@ -1,0 +1,429 @@
+/* ==================================================================
+ *  SAYFAYA ÖZEL STİLLER
+ *  cilginyazilim.com – Yumuşak Silme ve Çöp Kutusu
+ * ------------------------------------------------------------------
+ *  DİKKAT: Genel marka stilleri "cilginyazilim.css" içindedir. Bu dosya
+ *  SADECE bu örneğe özgü bileşenleri barındırır (sayaç şeridi, sekmeler,
+ *  durum rozetleri, not tablosu). Böylece tasarım kalıbını başka bir
+ *  projeye taşırken bu dosyayı götürmeniz gerekmez.
+ *
+ *  Yükleme sırası:  bootstrap → cilginyazilim → style
+ *
+ *  Renkler doğrudan yazılmaz; marka değişkenlerinden okunur.
+ * ================================================================== */
+
+.container { max-width: 1080px; }
+
+
+/* ------------------------------------------------------------------
+ *  1) ORTAK KÜÇÜK PARÇALAR
+ * ------------------------------------------------------------------ */
+.cy-hint {
+    font-size: .82rem;
+    color: var(--cy-text-muted);
+}
+
+.cy-hint code,
+.cy-card__footer code,
+.cy-detail code,
+.cy-explain code {
+    background: var(--cy-brand-100);
+    color: var(--cy-brand-600);
+    padding: .05rem .3rem;
+    border-radius: .3rem;
+    font-size: .85em;
+}
+
+.cy-section-title {
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--cy-text-muted);
+    margin: 0 0 .5rem;
+}
+
+.cy-muted { color: var(--cy-text-muted); }
+.cy-nowrap { white-space: nowrap; }
+
+.cy-empty-cell {
+    text-align: center;
+    color: var(--cy-text-muted);
+    font-size: .85rem;
+    padding: 2rem .5rem;
+}
+
+.cy-badges { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+
+.cy-badge--soft {
+    background: var(--cy-surface-soft);
+    border: 1px solid var(--cy-border);
+    color: var(--cy-text-muted);
+    padding: .12rem .55rem;
+    border-radius: var(--cy-radius-pill);
+    font-size: .78rem;
+}
+
+
+/* ------------------------------------------------------------------
+ *  2) SAYAÇ ŞERİDİ
+ * ------------------------------------------------------------------
+ *  "Son N günde" ve "Temizlenmeye hazır" sıfırdan büyükse uyarı
+ *  rengine geçer. İkisi de bir HATA değil bir hatırlatmadır: birinde
+ *  vakit daralıyor, diğerinde cron'un işi birikmiş.
+ * ------------------------------------------------------------------ */
+.cy-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: .75rem;
+    margin-bottom: 1.25rem;
+}
+
+.cy-stat {
+    background: var(--cy-surface-soft);
+    border: 1px solid var(--cy-border);
+    border-radius: var(--cy-radius);
+    padding: .85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+    border-left: 3px solid var(--cy-brand-600);
+}
+
+.cy-stat--active  { border-left-color: var(--cy-success); }
+.cy-stat--trash   { border-left-color: var(--cy-info); }
+.cy-stat--warn    { border-left-color: var(--cy-text-muted); }
+.cy-stat--expired { border-left-color: var(--cy-text-muted); }
+.cy-stat--total   { border-left-color: var(--cy-brand-600); }
+
+.cy-stat--warn.is-warn    { border-left-color: var(--cy-warning); }
+.cy-stat--warn.is-warn .cy-stat__value { color: var(--cy-warning); }
+
+.cy-stat--expired.is-warn { border-left-color: var(--cy-danger); }
+.cy-stat--expired.is-warn .cy-stat__value { color: var(--cy-danger); }
+
+.cy-stat__value {
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--cy-text);
+    font-variant-numeric: tabular-nums;
+}
+
+.cy-stat__label {
+    font-size: .75rem;
+    color: var(--cy-text-muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+
+/* ------------------------------------------------------------------
+ *  3) ARAÇ ÇUBUĞU VE SEKMELER
+ * ------------------------------------------------------------------ */
+.cy-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.cy-toolbar__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center;
+}
+
+.cy-tabs {
+    display: inline-flex;
+    background: var(--cy-surface-soft);
+    border: 1px solid var(--cy-border);
+    border-radius: var(--cy-radius-pill);
+    padding: .2rem;
+    gap: .2rem;
+}
+
+.cy-tab {
+    border: 0;
+    background: transparent;
+    color: var(--cy-text-muted);
+    font-size: .88rem;
+    font-weight: 600;
+    padding: .4rem .9rem;
+    border-radius: var(--cy-radius-pill);
+    cursor: pointer;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    transition: background var(--cy-transition), color var(--cy-transition);
+}
+
+.cy-tab:hover { color: var(--cy-text); }
+
+.cy-tab.is-active {
+    background: var(--cy-brand-600);
+    color: #fff;
+}
+
+/* Sekmedeki sayı, seçili olsun olmasın okunur kalmalı. */
+.cy-tab__count {
+    background: rgba(15, 23, 42, .08);
+    color: inherit;
+    border-radius: var(--cy-radius-pill);
+    padding: .05rem .45rem;
+    font-size: .78rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.cy-tab.is-active .cy-tab__count { background: rgba(255, 255, 255, .22); }
+
+.cy-search {
+    width: 240px;
+    min-height: 38px;
+    background: var(--cy-surface);
+    color: var(--cy-text);
+    border-color: var(--cy-border);
+}
+
+.cy-search:focus {
+    border-color: var(--cy-brand-400);
+    box-shadow: 0 0 0 .2rem rgba(11, 92, 181, .15);
+}
+
+
+/* ------------------------------------------------------------------
+ *  4) NOT TABLOSU
+ * ------------------------------------------------------------------ */
+.cy-notes tbody tr { cursor: pointer; }
+
+.cy-notes tbody tr:focus-visible {
+    outline: 2px solid var(--cy-brand-400);
+    outline-offset: -2px;
+}
+
+.cy-note-title {
+    font-weight: 600;
+    color: var(--cy-text);
+    line-height: 1.35;
+}
+
+.cy-note-excerpt {
+    font-size: .82rem;
+    color: var(--cy-text-muted);
+    line-height: 1.5;
+    margin-top: .15rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cy-body-box {
+    background: var(--cy-surface-soft);
+    border: 1px solid var(--cy-border);
+    border-radius: var(--cy-radius-sm);
+    padding: .8rem 1rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: .9rem;
+    line-height: 1.6;
+    max-height: 320px;
+    overflow: auto;
+}
+
+
+/* ------------------------------------------------------------------
+ *  5) DURUM ROZETLERİ
+ * ------------------------------------------------------------------
+ *  Renk TEK BAŞINA anlam taşımaz: her rozetin içinde durumu anlatan
+ *  METİN de vardır ("12 gün kaldı", "temizlenmeye hazır", "aktif").
+ * ------------------------------------------------------------------ */
+.cy-state {
+    display: inline-block;
+    padding: .12rem .5rem;
+    border-radius: var(--cy-radius-pill);
+    font-size: .74rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+
+.cy-state--active {
+    background: rgba(5, 150, 105, .12);
+    color: var(--cy-success);
+    border-color: rgba(5, 150, 105, .3);
+}
+
+.cy-state--ok {
+    background: rgba(2, 132, 199, .12);
+    color: var(--cy-info);
+    border-color: rgba(2, 132, 199, .3);
+}
+
+.cy-state--warn {
+    background: rgba(217, 119, 6, .14);
+    color: var(--cy-warning);
+    border-color: rgba(217, 119, 6, .3);
+}
+
+.cy-state--expired {
+    background: rgba(220, 38, 38, .12);
+    color: var(--cy-danger);
+    border-color: rgba(220, 38, 38, .3);
+}
+
+
+/* ------------------------------------------------------------------
+ *  6) AÇIKLAMA KUTUSU
+ * ------------------------------------------------------------------
+ *  Onay penceresinde ve detayda kullanılır: "geri alınabilir mi?"
+ *  sorusunun cevabı, işlem yapılmadan ÖNCE görünsün.
+ * ------------------------------------------------------------------ */
+.cy-explain {
+    background: var(--cy-brand-100);
+    border: 1px solid var(--cy-border);
+    border-left: 3px solid var(--cy-brand-600);
+    border-radius: var(--cy-radius-sm);
+    padding: .7rem .9rem;
+    margin-bottom: 1rem;
+    font-size: .85rem;
+    line-height: 1.6;
+    color: var(--cy-text);
+}
+
+
+/* ------------------------------------------------------------------
+ *  7) İKON BUTONLAR
+ * ------------------------------------------------------------------
+ *  opacity: 0 ile gizlenip hover'da gösterilmiyorlar — dokunmatik bir
+ *  ekranda hover YOKTUR ve o düğmelere hiç ulaşılamazdı. Sönük ama
+ *  görünür duruyorlar; üzerine gelince belirginleşiyorlar.
+ * ------------------------------------------------------------------ */
+.cy-actions { display: inline-flex; gap: .2rem; }
+
+.cy-btn-icon {
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--cy-text-muted);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: .4rem;
+    font-size: .9rem;
+    line-height: 1;
+    opacity: .7;
+    transition: background var(--cy-transition), color var(--cy-transition), opacity var(--cy-transition);
+}
+
+.cy-btn-icon:hover,
+.cy-btn-icon:focus-visible { opacity: 1; }
+
+.cy-btn-icon--edit:hover    { background: var(--cy-brand-600); color: #fff; }
+.cy-btn-icon--restore:hover { background: var(--cy-success);   color: #fff; }
+.cy-btn-icon--trash:hover   { background: var(--cy-warning);   color: #fff; }
+.cy-btn-icon--delete:hover  { background: var(--cy-danger);    color: #fff; }
+
+
+/* ------------------------------------------------------------------
+ *  8) BUTON VARYANTLARI VE TOAST
+ * ------------------------------------------------------------------
+ *  Marka kalıbındaki .cy-btn yalnızca ORTAK davranışı tanımlar; zemini
+ *  varyantlar verir. Varyantsız kullanılan bir .cy-btn ("Kapat",
+ *  "Hepsini geri al") zeminsiz görünür ve tıklanabilir olduğu
+ *  anlaşılmaz.
+ * ------------------------------------------------------------------ */
+.cy-btn:not([class*="cy-btn--"]) {
+    background: var(--cy-surface);
+    border-color: var(--cy-border);
+    color: var(--cy-text);
+}
+
+.cy-btn:not([class*="cy-btn--"]):hover,
+.cy-btn:not([class*="cy-btn--"]):focus {
+    background: var(--cy-surface-soft);
+    border-color: var(--cy-brand-400);
+    color: var(--cy-brand-600);
+}
+
+/* Geri alınamaz işlemler için ayrı bir varyant: "Çöpü boşalt" ile
+ * "Hepsini geri al" aynı görünmemeli. */
+.cy-btn--danger {
+    background: var(--cy-danger);
+    border-color: var(--cy-danger);
+    color: #fff;
+}
+
+.cy-btn--danger:hover,
+.cy-btn--danger:focus {
+    background: #b91c1c;
+    border-color: #b91c1c;
+    color: #fff;
+}
+
+.cy-btn:disabled { opacity: .5; cursor: not-allowed; }
+.cy-btn.is-busy  { opacity: .65; cursor: progress; }
+
+.cy-toast-area {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1090;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    max-width: min(360px, calc(100vw - 2rem));
+}
+
+.cy-toast {
+    padding: .7rem 1rem;
+    font-size: .9rem;
+    transition: opacity .3s ease, transform .3s ease;
+}
+
+.cy-toast--out { opacity: 0; transform: translateX(20px); }
+
+
+/* ------------------------------------------------------------------
+ *  9) MOBİL UYUM
+ * ------------------------------------------------------------------
+ *  YAKLAŞIM: dar ekranda tabloyu yatay kaydırmaya zorlamak yerine
+ *  "Güncellendi / Silindi" sütununu GİZLİYORUZ. Bilgi kaybolmaz:
+ *  durum rozeti not başlığının altına taşınır, tarih detay
+ *  penceresinde durur.
+ * ------------------------------------------------------------------ */
+@media (max-width: 767.98px) {
+    .cy-stats { gap: .5rem; margin-bottom: 1rem; }
+    .cy-stat { padding: .65rem .75rem; }
+    .cy-stat__value { font-size: 1.2rem; }
+
+    .cy-toolbar { gap: .5rem; }
+    .cy-toolbar__actions { width: 100%; }
+    .cy-search { width: 100%; flex: 1 1 100%; }
+    .cy-toolbar__actions .btn { flex: 1 1 auto; }
+
+    .cy-col-meta { display: none; }
+}
+
+@media (max-width: 480px) {
+    .cy-stats { grid-template-columns: repeat(2, 1fr); }
+    .cy-stat--total { grid-column: 1 / -1; }
+
+    /* Kart iç boşluğunu daraltmak tabloya ~32px kazandırır — dar
+     * telefonda yatay kaydırmayı ortadan kaldıran fark budur. */
+    .cy-card__header,
+    .cy-card__body { padding: .75rem; }
+
+    .cy-table > thead > tr > th,
+    .cy-table > tbody > tr > td { padding: .5rem .35rem; }
+
+    .cy-tabs { width: 100%; }
+    .cy-tab { flex: 1 1 auto; justify-content: center; padding: .4rem .5rem; }
+
+    .cy-note-excerpt { -webkit-line-clamp: 1; }
+    .cy-state { font-size: .7rem; padding: .1rem .4rem; }
+}

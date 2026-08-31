@@ -1,0 +1,17 @@
+# =====================================================================
+#  bin/ KLASÖRÜ – WEB'E TÜMÜYLE KAPALI
+#  cilginyazilim.com – Yumuşak Silme ve Çöp Kutusu
+# ---------------------------------------------------------------------
+#  Buradaki purge.php bir CRON betiğidir ve çöp kutusundaki süresi
+#  dolmuş kayıtları KALICI SİLER. Web'den çağrılabilir olsaydı,
+#  kimlik doğrulaması olmayan bir adres veri siliyor olurdu — üstelik
+#  CSRF jetonu da istemeden, çünkü CLI betiklerinde oturum yoktur.
+#
+#  İkinci katman betiğin kendi içindedir:
+#      if (PHP_SAPI !== 'cli') { http_response_code(403); exit; }
+#
+#  İki katman da bilerek vardır: .htaccess'in okunmadığı bir sunucuda
+#  (nginx) bu dosya hiçbir şey yapmaz; oradaki PHP kontrolü çalışır.
+# =====================================================================
+
+Require all denied
