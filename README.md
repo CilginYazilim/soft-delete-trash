@@ -333,8 +333,12 @@ cd soft-delete-trash
 mysql -u root -p < cy_trash.sql
 
 # 3) Yerel ayarları oluşturun (isteğe bağlı; varsayılanlar XAMPP'a uyar)
-cp system/config.local.php.example system/config.local.php
+#    En kısa yol — .env:
+cp .env.example .env
 #    → içindeki DB_* satırlarını doldurun
+#
+#    Ya da config.local.php:
+cp system/config.local.php.example system/config.local.php
 
 # 4) Tarayıcıda açın
 #    http://localhost/soft-delete-trash/
@@ -510,6 +514,7 @@ Aynı kalıpla hazırlanmış diğer örnekler: [cilginyazilim.com/kutuphane](ht
 │   └── images/logo.png
 ├── docs/screenshots/
 ├── .htaccess              → dizin listeleme kapalı, dosya türü kuralları, güvenlik başlıkları
+├── .env.example           → Veritabanı bilgileri (isteğe bağlı) — .gitignore içinde
 ├── cy_trash.sql           → şema + 11 aktif + 9 çöpteki not (NOW() - INTERVAL ile)
 ├── index.php              → arayüz (veritabanına dokunmaz)
 ├── CHANGELOG.md

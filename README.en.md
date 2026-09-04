@@ -333,8 +333,12 @@ cd soft-delete-trash
 mysql -u root -p < cy_trash.sql
 
 # 3) Create local settings (optional; defaults suit XAMPP)
-cp system/config.local.php.example system/config.local.php
+#    Shortest route — .env:
+cp .env.example .env
 #    → fill in the DB_* lines
+#
+#    Or config.local.php:
+cp system/config.local.php.example system/config.local.php
 
 # 4) Open it in a browser
 #    http://localhost/soft-delete-trash/
@@ -511,6 +515,7 @@ Other examples built on the same pattern: [cilginyazilim.com/kutuphane](https://
 │   └── images/logo.png
 ├── docs/screenshots/
 ├── .htaccess              → no directory listing, file-type rules, security headers
+├── .env.example           → Database credentials (optional) — in .gitignore
 ├── cy_trash.sql           → schema + 11 active + 9 trashed notes (via NOW() - INTERVAL)
 ├── index.php              → interface (never touches the database)
 ├── CHANGELOG.md
