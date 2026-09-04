@@ -16,7 +16,7 @@
 
 **🇹🇷 Türkçe** · [🇬🇧 English](README.en.md)
 
-[**▶ Canlı Demo**](https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Soft-Delete-Yumusak-Silme-Cop-Kutusu-PDO-Ajax-main/) · [Kaynak Kütüphanesi](https://cilginyazilim.com/kutuphane/php-soft-delete-trash) · [cilginyazilim.com](https://cilginyazilim.com)
+[**▶ Canlı Demo**](https://cilginyazilim.com/kutuphane/uygulama/soft-delete-trash/) · [Kaynak Kütüphanesi](https://cilginyazilim.com/kutuphane/php-soft-delete-trash) · [cilginyazilim.com](https://cilginyazilim.com)
 
 </div>
 
@@ -28,13 +28,13 @@
 
 **Kurulum yok, kayıt yok, indirme yok — tarayıcınızdan 3 saniyede deneyin.**
 
-<a href="https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Soft-Delete-Yumusak-Silme-Cop-Kutusu-PDO-Ajax-main/"><img src="https://img.shields.io/badge/CANLI_DEMOYU_A%C3%87-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Canlı Demoyu Aç" height="42"></a>
+<a href="https://cilginyazilim.com/kutuphane/uygulama/soft-delete-trash/"><img src="https://img.shields.io/badge/CANLI_DEMOYU_A%C3%87-0b5cb5?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=061321" alt="Canlı Demoyu Aç" height="42"></a>
 <a href="https://cilginyazilim.com/kutuphane/php-soft-delete-trash"><img src="https://img.shields.io/badge/KAYNAK_KODU_%C4%B0NCELE-0ea5e9?style=for-the-badge&logo=readthedocs&logoColor=white&labelColor=061321" alt="Kaynak Kodu İncele" height="42"></a>
-<a href="https://github.com/CilginYazilim/PHP-MySQL-Soft-Delete-Yumusak-Silme-Cop-Kutusu-PDO-Ajax/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/ZIP_%C4%B0ND%C4%B0R-16a34a?style=for-the-badge&logo=github&logoColor=white&labelColor=061321" alt="ZIP İndir" height="42"></a>
+<a href="https://github.com/CilginYazilim/soft-delete-trash/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/ZIP_%C4%B0ND%C4%B0R-16a34a?style=for-the-badge&logo=github&logoColor=white&labelColor=061321" alt="ZIP İndir" height="42"></a>
 
 <br><br>
 
-<a href="https://cilginyazilim.com/kutuphane/uygulama/PHP-MySQL-Soft-Delete-Yumusak-Silme-Cop-Kutusu-PDO-Ajax-main/" title="Canlı demoyu açmak için tıklayın">
+<a href="https://cilginyazilim.com/kutuphane/uygulama/soft-delete-trash/" title="Canlı demoyu açmak için tıklayın">
   <img src="docs/screenshots/01-aktif-notlar.png" alt="Yumuşak silme ve çöp kutusu canlı demo önizlemesi" width="860">
 </a>
 
@@ -326,8 +326,8 @@ Sayım ve silme **aynı transaction** içindedir; ayrı olsalardı ikisi arasın
 
 ```bash
 # 1) Depoyu alın
-git clone https://github.com/CilginYazilim/PHP-MySQL-Soft-Delete-Yumusak-Silme-Cop-Kutusu-PDO-Ajax.git
-cd PHP-MySQL-Soft-Delete-Yumusak-Silme-Cop-Kutusu-PDO-Ajax
+git clone https://github.com/CilginYazilim/soft-delete-trash.git
+cd soft-delete-trash
 
 # 2) Veritabanını oluşturun (dosya CREATE DATABASE'i kendisi yapar)
 mysql -u root -p < cy_trash.sql
@@ -337,12 +337,50 @@ cp system/config.local.php.example system/config.local.php
 #    → içindeki DB_* satırlarını doldurun
 
 # 4) Tarayıcıda açın
-#    http://localhost/PHP-MySQL-Soft-Delete-Yumusak-Silme-Cop-Kutusu-PDO-Ajax/
+#    http://localhost/soft-delete-trash/
 ```
 
 **Composer yok, npm yok.** jQuery ve Bootstrap dosyaları depoda; internet bağlantısı olmadan da çalışır.
 
 > **Üretilen sütun (generated column) uyarısı:** `is_active` sütunu MySQL **5.7+** ve MariaDB **10.2+** gerektirir. Daha eski bir sunucuda çalışıyorsanız, benzersizliği bir tetikleyici (trigger) ya da uygulama katmanında kurmanız gerekir — ama o durumda yarış durumlarına açık kalırsınız.
+
+### Ortam değişkenleri
+
+Depo kökündeki **`.env`** dosyasına yazın; `system/config.php` dosyasına
+hiç dokunmayın:
+
+```bash
+cp .env.example .env        # Windows: copy .env.example .env
+```
+
+`.env` `.gitignore` içindedir: depoya gönderilmez ve dağıtım (deploy) onu
+**silmez**. `system/config.php` ise depoda durur ve her dağıtımda depodaki
+sürümle değiştirilir — parolayı oraya yazarsanız hem GitHub'a gider hem de
+ilk deploy'da kaybolur.
+
+Dosyayı hiç oluşturmasanız da uygulama çalışır; aşağıdaki varsayılanlar
+yerel bir XAMPP kurulumuna göredir.
+
+**Değer arama sırası:** `.env` → sunucunun gerçek ortam değişkeni
+(Apache `SetEnv`, systemd…) → buradaki varsayılan.
+
+| Değişken | Varsayılan | Ne işe yarar |
+|---|---|---|
+| `DB_HOST` | `127.0.0.1` | Veritabanı sunucusu |
+| `DB_NAME` | `cy_trash` | Veritabanı adı |
+| `DB_USER` | `root` | Kullanıcı |
+| `DB_PASS` | *(boş)* | Şifre — **koda yazmayın** |
+| `APP_TIMEZONE` | `Europe/Istanbul` | PHP'nin saat dilimi |
+| `APP_DEBUG` | *ortamdan* | Hataların ekrana basılıp basılmayacağı |
+
+**`APP_TIMEZONE` neden var?** XAMPP'ın `php.ini` dosyasındaki
+`date.timezone`, MySQL'in kullandığı sistem diliminden farklı olabilir.
+Test makinesinde PHP `Europe/Berlin`, MySQL `Europe/Istanbul`
+kullanıyordu; aynı anı anlatan iki satır bir saat farklı görünüyordu.
+Zaman **hesapları** SQL tarafında yapıldığı için doğruydu, ama ekrana
+basılan saat kayıyordu. Artık dilim açıkça sabitleniyor — sunucunuz başka
+bir bölgedeyse bu değişkeni tanımlamanız yeterli, koda dokunmayın.
+
 
 ---
 
@@ -759,7 +797,7 @@ Katkılar memnuniyetle karşılanır.
 4. Dalı gönderin: `git push origin ozellik/harika-sey`
 5. Pull request açın
 
-Hata bildirimi ve öneriler için [Issues](https://github.com/CilginYazilim/PHP-MySQL-Soft-Delete-Yumusak-Silme-Cop-Kutusu-PDO-Ajax/issues) bölümünü kullanabilirsiniz.
+Hata bildirimi ve öneriler için [Issues](https://github.com/CilginYazilim/soft-delete-trash/issues) bölümünü kullanabilirsiniz.
 
 ---
 
